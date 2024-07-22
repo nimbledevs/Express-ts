@@ -1,9 +1,13 @@
 import { Request,Response } from "express";
+import { User } from "../models/user.model";
+import { generateToken } from "../utils/generateToken";
+import { IUser } from "../types/user.interface";
 
 // get user  controller
 
 const getUser= (req:Request, res:Response) => {
     try {
+      
         res.status(200).json({message:"hello from login api"});
     } catch (error:any) {
         res.status(error.status).json({error: error.message});
@@ -21,9 +25,25 @@ const registerUser= (req:Request, res:Response) => {
 
 
 // login controller
-const  loginUser= (req:Request, res:Response) => {
+const  loginUser= async(req:Request, res:Response) => {
     try {
-        res.status(200).json({message:"hello from register api"});
+        const {username,email,password} = req.body;
+        if(!username || !password || !email){
+            return res.status(400).json({error: "All fields are required"});
+        }
+
+        // check email and password
+
+        const user=await User.comparePassword(password);
+
+        if(!user){
+            return res.status(401).json({error: "Invalid email or password"});
+        }
+       
+        // token generate
+
+        res.json({token:generateToken(user)});
+        
     } catch (error:any) {
         res.status(error.status).json({error: error.message});
     }

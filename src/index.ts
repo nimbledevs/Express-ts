@@ -7,6 +7,7 @@ import {rateLimit} from 'express-rate-limit';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import connectDb from './config/db.config';
+import authRouter from './routes/auth.routes';
 
 const app:Application = express();
 
@@ -51,6 +52,11 @@ app.use(session({
 // Connect to MongoDB database
 
 connectDb();
+
+
+// Routes for accessing the database and loading the session
+
+app.use('/api/auth', authRouter);
 
 // Start the server
 
