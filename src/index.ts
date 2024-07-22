@@ -5,7 +5,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import {rateLimit} from 'express-rate-limit';
 import cookieParser from 'cookie-parser';
-import session,{CookieOptions} from 'express-session';
+import session from 'express-session';
 
 const app:Application = express();
 
@@ -16,11 +16,9 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
 // Middleware to secure Express app by setting various HTTP headers
 
 app.use(helmet());
-
 
 // Middleware to limit the number of requests from the same IP address within a certain time frame
 
@@ -53,5 +51,5 @@ app.use(session({
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`[server] :: server running on port ${PORT}`);
 });
