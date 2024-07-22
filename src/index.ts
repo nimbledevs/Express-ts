@@ -5,6 +5,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import {rateLimit} from 'express-rate-limit';
 import cookieParser from 'cookie-parser';
+import session,{CookieOptions} from 'express-session';
 
 const app:Application = express();
 
@@ -38,6 +39,15 @@ app.use((req, res, next) => {
   next();
 });
 
+// Express session 
+
+app.set('trust proxy', 1) // trust first proxy
+app.use(session({
+  secret: process.env.SESSION_SECRET as string,
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: true }
+}))
 
 // Start the server
 
