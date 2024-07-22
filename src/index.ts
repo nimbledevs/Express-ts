@@ -6,6 +6,7 @@ import helmet from 'helmet';
 import {rateLimit} from 'express-rate-limit';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
+import connectDb from './config/db.config';
 
 const app:Application = express();
 
@@ -46,6 +47,10 @@ app.use(session({
   saveUninitialized: true,
   cookie: { secure: true }
 }))
+
+// Connect to MongoDB database
+
+connectDb();
 
 // Start the server
 
