@@ -2,7 +2,7 @@ import { Request,Response } from "express";
 import { User } from "../models/user.model";
 import { generateToken } from "../utils/generateToken";
 import { IUser } from "../types/user.interface";
-
+import bcrypt from 'bcryptjs';
 // get user  controller
 
 const getUser= (req:Request, res:Response) => {
@@ -34,7 +34,7 @@ const  loginUser= async(req:Request, res:Response) => {
 
         // check email and password
 
-        const user=await User.comparePassword(password);
+        const user=bcrypt.compare(password);
 
         if(!user){
             return res.status(401).json({error: "Invalid email or password"});
@@ -43,7 +43,7 @@ const  loginUser= async(req:Request, res:Response) => {
         // token generate
 
         res.json({token:generateToken(user)});
-        
+
     } catch (error:any) {
         res.status(error.status).json({error: error.message});
     }

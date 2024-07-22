@@ -4,7 +4,7 @@ import bcrypt from 'bcryptjs';
 import { NextFunction } from "express";
 
 // Define the User schema
-const userSchema: Schema = new Schema<IUser & Document<any, any, IUser>>(
+const userSchema: Schema = new Schema<IUser>(
   {
     username: { type: String, required: true, unique: true },
     password: { type: String, required: true },
@@ -25,7 +25,7 @@ const userSchema: Schema = new Schema<IUser & Document<any, any, IUser>>(
 );
 
 // Pre-save hook to hash password before saving
-userSchema.pre<IUser & Document<any, any, IUser>>("save", async function (next) {
+userSchema.pre<IUser>("save", async function (next) {
   if (this.isModified("password")) {
     try {
       const hashedPassword = await bcrypt.hash(this.password, 10);
@@ -47,4 +47,4 @@ userSchema.methods.comparePassword = async function (candidatePassword: string, 
 };
 
 // Create the User model
-export const User: Model<IUser & Document<any, any, IUser>> = mongoose.model<IUser & Document<any, any, IUser>>("User", userSchema);
+export const User: Model<IUser> = mongoose.model<IUser>("User", userSchema);

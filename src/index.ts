@@ -8,6 +8,8 @@ import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import connectDb from './config/db.config';
 import authRouter from './routes/auth.routes';
+import userRouter from './routes/user.routes';
+import { auth } from './middleware/authMiddleware';
 
 const app:Application = express();
 
@@ -57,6 +59,7 @@ connectDb();
 // Routes for accessing the database and loading the session
 
 app.use('/api/auth', authRouter);
+app.use('/api/user',auth, userRouter);
 
 // Start the server
 

@@ -23,7 +23,7 @@ userInfo: {
 }
 
 
-const validateLoginInput=async(userData:userDataProps)=>{
+const validateLoginInput=async(userData)=>{
 userData.username = !isEmpty(userData.username) ? userData.username :"";
 userData.email = !isEmpty(userData.email) ? userData.email :"";
 userData.password = !isEmpty(userData.password) ? userData.password :"";
